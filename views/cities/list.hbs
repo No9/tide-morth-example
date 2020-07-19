@@ -1,0 +1,28 @@
+{{#*inline "page"}} 
+    <div class="container">
+        {{#each cities}}
+            <div class="col-xs-12 col-sm-3">
+                <ul class="list-group">
+                    <li class="list-group-item">{{this.name}}</li>
+                    <li class="list-group-item">{{this.country}}</li>
+                    <!--<li class="list-group-item">{{this.size}}</li>
+                    <li class="list-group-item">{{this.color}}</li>
+                    <li class="list-group-item"><small>{{this._id}}</small></li>
+
+
+                    <form action="/products/{{this._id}}/edit" method="post" enctype="application/x-www-form-urlencoded">
+                        <input type="hidden" value="DELETE" name="_method"/>
+                        <button type="submit" class="btn btn-secondary"> Delete </button>
+                    </form>
+                    -->
+                    <a href="/cities/{{this._id.[$oid]}}/edit"> Edit </a> |
+                    <a href="/cities/{{this._id.[$oid]}}"> Show </a>
+                </ul>
+            </div>
+        {{/each}}
+
+        <a href="/cities/new">new city</a>
+    </div>
+{{/inline}}
+{{! remove whitespaces with ~ }}
+{{~> (parent)~}}

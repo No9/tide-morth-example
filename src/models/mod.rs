@@ -1,2 +1,1 @@
-//Not currently exposed
-// pub mod cities;
+pub mod city;

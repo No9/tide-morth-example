@@ -1,3 +1,5 @@
+pub mod models;
+
 // #[macro_use]
 extern crate serde_json;
 //extern crate serde_derive;
@@ -45,15 +47,16 @@ async fn main() -> Result<(), std::io::Error> {
     let mut articles = app.at("/articles");
     articles.get(routes::articles::index);
 
-    articles.at("/new")
-    .get(routes::articles::new)
-    .post(routes::articles::create);
     articles
-        .at("/:article_id")
-        .get(routes::articles::show);
-        // .delete(routes::articles::delete)
-        // .put(routes::articles::update)
-        
+        .at("/new")
+        .get(routes::articles::new)
+        .post(routes::articles::create);
+    articles.at("/:article_id").get(routes::articles::show);
+    // .delete(routes::articles::delete)
+    // .put(routes::articles::update)
+
+    let mut cities = app.at("/cities");
+    cities.get(routes::cities::index);
 
     app.at("/public").serve_dir("public/")?;
     app.listen("127.0.0.1:8080").await?;

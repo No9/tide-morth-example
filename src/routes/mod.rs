@@ -1,4 +1,5 @@
 pub mod articles;
+pub mod cities;
 
 use super::*;
 use handlebars::to_json;

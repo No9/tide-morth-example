@@ -2,13 +2,11 @@
 
 use super::*;
 use handlebars::to_json;
+use mongodb::bson::{doc, Document};
+use serde::{Deserialize, Serialize};
 use serde_json::value::Map;
 use tide::Request;
 use tide_mongodb_dal;
-use mongodb::{
-    bson::{doc, Document},
-};
-use serde::{ Serialize, Deserialize };
 
 pub async fn index(req: Request<State>) -> tide::Result {
     let state = &req.state();
@@ -65,19 +63,20 @@ pub async fn new(req: Request<State>) -> tide::Result {
 
 #[derive(Serialize, Deserialize)]
 struct PartialArticle {
-    title : String,
-    text : String
+    title: String,
+    text: String,
 }
 pub async fn create(mut req: Request<State>) -> tide::Result {
-    
-    let article : PartialArticle = req.body_form().await?;
+    let article: PartialArticle = req.body_form().await?;
     let doc = doc! { "title" : article.title, "text": article.text };
     let client = &req.state().client;
 
-    let result = tide_mongodb_dal::insert_one(client, "test", "articles", doc).await.expect("Insert Failed");
-  
-    let article_id = result.inserted_id.as_object_id().unwrap(); 
-  
+    let result = tide_mongodb_dal::insert_one(client, "test", "articles", doc)
+        .await
+        .expect("Insert Failed");
+
+    let article_id = result.inserted_id.as_object_id().unwrap();
+
     Ok(tide::Redirect::new(format!("/articles/{}", article_id.to_hex())).into())
 
     // let hb = &req.state().registry;
