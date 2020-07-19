@@ -19,3 +19,8 @@ docker run -d -p 27017:27017 -v ~/data:/data/db mongo:4.2
 * Fast development for simple CRUD apps as no data access layer is defined as a decorated struct - See models/cities.rs
 
 * Accessible to developers familiar with Javascript constructs
+
+* MongoDB Rust currently uses async-std 1.5 and that conflicts with tide. There is a PR in to bump it to 1.6 and this project uses it as a crate patch.
+    https://github.com/mongodb/mongo-rust-driver/pull/182
+
+* Delete functionality is not yet defined
