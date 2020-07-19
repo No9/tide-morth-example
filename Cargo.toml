@@ -1,5 +1,5 @@
 [package]
-name = "carbon-demo"
+name = "tide-morth-example"
 version = "0.1.0"
 authors = ["Anton Whalley <anton@venshare.com>"]
 edition = "2018"

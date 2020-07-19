@@ -1,4 +1,3 @@
-pub mod articles;
 pub mod cities;
 
 use super::*;

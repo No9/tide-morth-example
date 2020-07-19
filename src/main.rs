@@ -44,19 +44,18 @@ async fn main() -> Result<(), std::io::Error> {
 
     app.at("/welcome").get(routes::welcome);
 
-    let mut articles = app.at("/articles");
-    articles.get(routes::articles::index);
-
-    articles
-        .at("/new")
-        .get(routes::articles::new)
-        .post(routes::articles::create);
-    articles.at("/:article_id").get(routes::articles::show);
-    // .delete(routes::articles::delete)
-    // .put(routes::articles::update)
-
     let mut cities = app.at("/cities");
     cities.get(routes::cities::index);
+    cities
+        .at("/new")
+        .get(routes::cities::new)
+        .post(routes::cities::create);
+
+    cities.at("/:city_id").get(routes::cities::show);
+    cities
+        .at("/:city_id/edit")
+        .get(routes::cities::edit)
+        .post(routes::cities::update);
 
     app.at("/public").serve_dir("public/")?;
     app.listen("127.0.0.1:8080").await?;
