@@ -6,8 +6,9 @@ use serde_json::value::Map;
 use tide::Request;
 use tide_mongodb_dal;
 use mongodb::{
-    bson::{Document},
+    bson::{doc, Document},
 };
+use serde::{ Serialize, Deserialize };
 
 pub async fn index(req: Request<State>) -> tide::Result {
     let state = &req.state();
@@ -43,12 +44,13 @@ pub async fn show(req: Request<State>) -> tide::Result {
             Document::new()
         }
     };
+    println!("show:{}", doc);
     let hb = &state.registry;
     let mut data = Map::new();
     data.insert("title".to_string(), to_json("Articles"));
     data.insert("parent".to_string(), to_json("layouts/main"));
 
-    data.insert("articles".to_string(), to_json(&doc));
+    data.insert("article".to_string(), to_json(&doc));
     Ok(hb.render_response_ext("articles/show", &data, "html")?)
 }
 
@@ -61,12 +63,29 @@ pub async fn new(req: Request<State>) -> tide::Result {
     Ok(hb.render_response_ext("articles/form", &data, "html")?)
 }
 
+#[derive(Serialize, Deserialize)]
+struct PartialArticle {
+    title : String,
+    text : String
+}
 pub async fn create(mut req: Request<State>) -> tide::Result {
-    let hb = &req.state().registry;
-    let mut data = Map::new();
-    data.insert("title".to_string(), to_json("New Article Reponse"));
-    data.insert("parent".to_string(), to_json("layouts/main"));
-    Ok(hb.render_response_ext("articles/form", &data, "html")?)
+    
+    let article : PartialArticle = req.body_form().await?;
+    let doc = doc! { "title" : article.title, "text": article.text };
+    let client = &req.state().client;
+
+    let result = tide_mongodb_dal::insert_one(client, "test", "articles", doc).await.expect("Insert Failed");
+  
+    let article_id = result.inserted_id.as_object_id().unwrap(); 
+  
+    Ok(tide::Redirect::new(format!("/articles/{}", article_id.to_hex())).into())
+
+    // let hb = &req.state().registry;
+
+    // let mut data = Map::new();
+    // data.insert("title".to_string(), to_json("New Article Reponse"));
+    // data.insert("parent".to_string(), to_json("layouts/main"));
+    // Ok(hb.render_response_ext("articles/form", &data, "html")?)
     // let db = &request.state().db;
     // let mut tx = db.begin().await?;
     // let article: PartialArticle = utils::deserialize_body(&mut request).await?;
