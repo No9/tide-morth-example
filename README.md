@@ -16,7 +16,7 @@ docker run -d -p 27017:27017 -v ~/data:/data/db mongo:4.2
 
 ## Comments
 
-* Fast development for simple CRUD apps as no data access layer is defined as a decorated struct - See models/cities.rs
+* Fast development for simple CRUD apps as no data access layer is defined just as a decorated struct - See models/cities.rs
 
 * Accessible to developers familiar with Javascript constructs
 
