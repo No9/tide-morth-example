@@ -15,7 +15,6 @@ mongodb = { git = "https://github.com/saghm/mongo-rust-driver", branch = "RUST-4
 serde = "1.0.0"
 serde_json = "1.0.39"
 wither = { version = "0.9.0-alpha.1", features = ["async-std-runtime"], default-features = false }
-env_logger = "0.7.1"
-log = "0.4.11"
+
 [patch.crates-io]
 mongodb = { git = "https://github.com/saghm/mongo-rust-driver", branch = "RUST-452", features = ["async-std-runtime"], version = "1.0.0", default-features = false } 
