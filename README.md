@@ -4,6 +4,8 @@ An example application using mongodb rust tide and handlebars A.K.A MoRTH stack
 
 It's prime focus is to provde a project structure that should feel familiar to folks who have used JS Handlebars, pybars or Java Handlebars projects.
 
+![](images/morthdemo.gif)
+
 If you are evaluating tide patterns please look at [Rust Tide Example](https://github.com/jbr/tide-example).
 
 Once this project has matured it's intended that it will enter the [Rust Tide Example Contributions](https://github.com/jbr/tide-example#contributing) section in some form.
