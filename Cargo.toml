@@ -14,7 +14,6 @@ async-std = { version = "1.6.0", features = ["unstable", "attributes"] }
 mongodb = { git = "https://github.com/saghm/mongo-rust-driver", branch = "RUST-452", features = ["async-std-runtime"], version = "1.0.0", default-features = false } 
 serde = "1.0.0"
 serde_json = "1.0.39"
-tide-mongodb-dal = { path = "../tide-mongodb-dal" }
 wither = { version = "0.9.0-alpha.1", features = ["async-std-runtime"], default-features = false }
 
 [patch.crates-io]

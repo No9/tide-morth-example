@@ -1,7 +1,10 @@
 {{#*inline "page"}}
-<h1>{{city.name}}</h1>
+<h6 class="docs-header">{{city.name}}</h6>
 <p>{{city.country}}</p>
-
+<p>{{city.description}}</p>
+<p>
+    <a href="/cities">Back</a>
+</p>
 {{/inline}}
 {{! remove whitespaces with ~ }}
 {{~> (parent)~}}

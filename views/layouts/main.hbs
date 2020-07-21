@@ -1,14 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Tide MoRTH Example</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="/public/styles/style.css" />
-</head>
-<body>
-   <h1>{{title}}</h1>
-    <a href="/cities">List Cities</a>
-   {{~> page}}
 
+<head>
+  <title>Tide MoRTH Example</title>
+  <meta charset="utf-8">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta property="og:title" content="Tide MongoDB Handebars" />
+
+  <link href='//fonts.googleapis.com/css?family=Raleway:400,300,600' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="/public/styles/normalize.css">
+  <link rel="stylesheet" href="/public/styles/skeleton.css">
+  <link rel="stylesheet" href="/public/styles/custom.css">
+  <!--
+  <script src="public/js/site.js"></script>
+-->
+
+</head>
+
+<body>
+  <div class="container">
+    <nav class="navbar">
+      <div class="container">
+        <ul class="navbar-list">
+          <li class="navbar-item"><a class="navbar-link" href="/welcome">Home</a></li>
+          <li class="navbar-item"><a class="navbar-link" href="/cities">Cities</a></li>
+          <li class="navbar-item"><a class="navbar-link"
+              href="https://github.com/no9/tide-morth-example.git">Project</a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="docs-section" id="content">
+      {{~> page}}
+    </div>
+  </div>
 </body>
+
 </html>

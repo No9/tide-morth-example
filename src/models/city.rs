@@ -10,4 +10,5 @@ pub struct City {
     #[model(index(index = "dsc", with(field = "country", index = "dsc")))]
     pub name: String,
     pub country: String,
+    pub description: String,
 }

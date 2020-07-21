@@ -18,7 +18,7 @@ pub struct State {
 
 #[async_std::main]
 async fn main() -> Result<(), std::io::Error> {
-    let mut client_options = match ClientOptions::parse("mongodb://localhost:27017").await {
+    let mut client_options = match ClientOptions::parse("mongodb://127.0.0.1:27017").await {
         Ok(c) => c,
         Err(e) => panic!("Client Options Failed: {}", e),
     };

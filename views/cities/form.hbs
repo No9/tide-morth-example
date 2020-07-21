@@ -1,18 +1,23 @@
 {{#*inline "page"}}
+
 <form action="{{action}}" method="post">
-  <div>
-    <label for="name">Name</label>
-    <input type="text" id="name" name="name" value="{{city.name}}">
-  </div>
+  <div class="row">
+    <div class="six columns">
+      <label for="name">Name</label>
+      <input id="name" name="name" type="text" placeholder="Enter the city" value="{{city.name}}">
 
-  <div>
-    <label for="country">Country</label>
-    <textarea id="country" name="country">{{ city.country }}</textarea>
+    </div>
+    <div class="six columns">
+      <label for="country">Country</label>
+      <input name="country" id="country" type="text" placeholder="Enter the country" value="{{city.country}}">
+    </div>
   </div>
+  <label for="description">Description</label>
+  <textarea class="u-full-width" placeholder="Give an overview of the city" id="description"
+    name="description">{{ city.description }}</textarea>
 
-  <input type="submit" value="Save"/>
+  <input class="button-primary" type="submit" value="Submit"> <a class="button" href="/cities">Cancel</a>
 </form>
-
 {{/inline}}
 {{! remove whitespaces with ~ }}
 {{~> (parent)~}}
