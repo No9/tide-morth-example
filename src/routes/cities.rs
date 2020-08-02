@@ -4,10 +4,13 @@ use async_std::stream::StreamExt;
 use handlebars::to_json;
 use serde_json::value::Map;
 use tide::Request;
+use tracing::{info, instrument};
 use wither::bson::{doc, oid::ObjectId};
 use wither::Model;
 
+#[instrument]
 pub async fn index(req: Request<State>) -> tide::Result {
+    info!("Tracing Started");
     let state = &req.state();
     let db = &state.client.database("test");
 
@@ -27,6 +30,7 @@ pub async fn index(req: Request<State>) -> tide::Result {
     Ok(hb.render_response_ext("cities/list", &data, "html")?)
 }
 
+#[instrument]
 pub async fn show(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
@@ -45,6 +49,7 @@ pub async fn show(req: Request<State>) -> tide::Result {
     Ok(hb.render_response_ext("cities/show", &data, "html")?)
 }
 
+#[instrument]
 pub async fn edit(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
@@ -66,6 +71,7 @@ pub async fn edit(req: Request<State>) -> tide::Result {
     Ok(hb.render_response_ext("cities/form", &data, "html")?)
 }
 
+#[instrument]
 pub async fn new(req: Request<State>) -> tide::Result {
     let hb = &req.state().registry;
     let mut data = Map::new();
@@ -75,6 +81,7 @@ pub async fn new(req: Request<State>) -> tide::Result {
     Ok(hb.render_response_ext("cities/form", &data, "html")?)
 }
 
+#[instrument]
 pub async fn create(mut req: Request<State>) -> tide::Result {
     let mut city: City = req.body_form().await?;
     let state = &req.state();
@@ -86,6 +93,7 @@ pub async fn create(mut req: Request<State>) -> tide::Result {
     Ok(tide::Redirect::new(format!("/cities/{}", city_id.to_hex())).into())
 }
 
+#[instrument]
 pub async fn update(mut req: Request<State>) -> tide::Result {
     let mut city: City = req.body_form().await?;
     let state = &req.state();

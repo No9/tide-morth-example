@@ -7,14 +7,24 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tide = "0.12"
-tide-handlebars="0.3"
+tide = "0.13"
+tide-handlebars="0.5"
 handlebars="3.2.1"
 async-std = { version = "1.6.0", features = ["unstable", "attributes"] }
 mongodb = { git = "https://github.com/saghm/mongo-rust-driver", branch = "RUST-452", features = ["async-std-runtime"], version = "1.0.0", default-features = false } 
 serde = "1.0.0"
 serde_json = "1.0.39"
 wither = { version = "0.9.0-alpha.1", features = ["async-std-runtime"], default-features = false }
+tracing = { version = "0.1", default-features = true, features = ["log", "std"] }
+tracing-futures = { version = "0.2", default-features = false, features = ["std-future"] }
+tracing-subscriber = "0.2.7"
+tracing-log = "0.1"
+tracing-attributes =  { version = "0.1.2"}
+
+tracing-opentelemetry = "*"
+# opentelemetry example
+opentelemetry = "0.6"
+opentelemetry-jaeger = "0.5"
 
 [patch.crates-io]
 mongodb = { git = "https://github.com/saghm/mongo-rust-driver", branch = "RUST-452", features = ["async-std-runtime"], version = "1.0.0", default-features = false } 

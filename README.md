@@ -20,6 +20,22 @@ $ docker run -d -p 27017:27017 -v ~/data:/data/db mongo:4.2
 
 If you wish to use a different mongodb please modify the [connection string in main.rs](https://github.com/No9/tide-morth-example/blob/master/src/main.rs#L21)
 
+It also requires the options dependency of jaeger a local instance can be ran with:
+
+```
+$ docker run -d --name jaeger \
+  -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 \
+  -p 5775:5775/udp \
+  -p 6831:6831/udp \
+  -p 6832:6832/udp \
+  -p 5778:5778 \
+  -p 16686:16686 \
+  -p 14268:14268 \
+  -p 14250:14250 \
+  -p 9411:9411 \
+  jaegertracing/all-in-one:1.18
+```
+
 Then start the app
 
 ```

@@ -7,9 +7,13 @@ use handlebars::Handlebars;
 use mongodb::{options::ClientOptions, Client};
 use tide_handlebars::prelude::*;
 
+use opentelemetry::api::Provider;
+use opentelemetry::sdk;
+use tracing_subscriber::prelude::*;
+
 mod routes;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub struct State {
     registry: Arc<Handlebars<'static>>,
     client: Arc<Client>,
@@ -21,7 +25,12 @@ async fn main() -> Result<(), std::io::Error> {
         Ok(c) => c,
         Err(e) => panic!("Client Options Failed: {}", e),
     };
+    //.with_env_filter("async_fn=trace")
 
+    match init_tracer() {
+        Ok(o) => o,
+        Err(e) => panic!("tracing failed {}", e),
+    };
     // Manually set an option.
     client_options.app_name = Some("MoRTH".to_string());
 
@@ -58,5 +67,30 @@ async fn main() -> Result<(), std::io::Error> {
 
     app.at("/public").serve_dir("public/")?;
     app.listen("127.0.0.1:8080").await?;
+    Ok(())
+}
+
+fn init_tracer() -> Result<(), Box<dyn std::error::Error>> {
+    let exporter = opentelemetry_jaeger::Exporter::builder()
+        .with_agent_endpoint("127.0.0.1:6831".parse().unwrap())
+        .with_process(opentelemetry_jaeger::Process {
+            service_name: "morth_example".to_string(),
+            tags: Vec::new(),
+        })
+        .init()?;
+    let provider = sdk::Provider::builder()
+        .with_simple_exporter(exporter)
+        .with_config(sdk::Config {
+            default_sampler: Box::new(sdk::Sampler::Always),
+            ..Default::default()
+        })
+        .build();
+    let tracer = provider.get_tracer("tracing");
+
+    let opentelemetry = tracing_opentelemetry::layer().with_tracer(tracer);
+    tracing_subscriber::registry()
+        .with(opentelemetry)
+        .try_init()?;
+
     Ok(())
 }
