@@ -80,7 +80,4 @@ use wither::prelude::*;
     </tbody>
 ```
 
-* MongoDB Rust currently uses async-std 1.5 and that conflicts with tide. There is a PR in to bump it to 1.6 and this project uses it as a crate patch.
-    https://github.com/mongodb/mongo-rust-driver/pull/182
-
 * Delete functionality is not yet defined
