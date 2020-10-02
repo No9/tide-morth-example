@@ -14,7 +14,7 @@ pub async fn index(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
 
-    let mut cursor = City::find(db.clone(), None, None).await?;
+    let mut cursor = City::find(&db.clone(), None, None).await?;
     let mut docs: Vec<City> = Vec::new();
 
     while let Some(city) = cursor.next().await {
@@ -39,7 +39,7 @@ pub async fn show(req: Request<State>) -> tide::Result {
     let object_id = ObjectId::with_string(&id).unwrap();
     let filter = doc! { "_id": object_id };
 
-    let doc = City::find_one(db.clone(), filter, None).await?;
+    let doc = City::find_one(&db.clone(), filter, None).await?;
     let hb = &state.registry;
     let mut data = Map::new();
     data.insert("title".to_string(), to_json("Cities"));
@@ -58,7 +58,7 @@ pub async fn edit(req: Request<State>) -> tide::Result {
     let object_id = ObjectId::with_string(&id).unwrap();
     let filter = doc! { "_id": object_id };
 
-    let doc = City::find_one(db.clone(), filter, None).await?;
+    let doc = City::find_one(&db.clone(), filter, None).await?;
     let hb = &state.registry;
     let mut data = Map::new();
     data.insert("title".to_string(), to_json("Cities"));
@@ -86,7 +86,7 @@ pub async fn create(mut req: Request<State>) -> tide::Result {
     let mut city: City = req.body_form().await?;
     let state = &req.state();
     let db = &state.client.database("test");
-    city.save(db.clone(), None).await?;
+    city.save(&db.clone(), None).await?;
 
     let city_id = city.id.unwrap();
 
@@ -101,7 +101,7 @@ pub async fn update(mut req: Request<State>) -> tide::Result {
     let id = req.param::<String>("city_id")?;
     city.id = Some(ObjectId::with_string(&id).unwrap());
 
-    city.save(db.clone(), None).await?;
+    city.save(&db.clone(), None).await?;
 
     let city_id = city.id.unwrap();
 
