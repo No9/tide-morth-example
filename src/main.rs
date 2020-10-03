@@ -64,6 +64,9 @@ async fn main() -> Result<(), std::io::Error> {
         .at("/:city_id/edit")
         .get(routes::cities::edit)
         .post(routes::cities::update);
+    cities
+        .at("/:city_id/delete")
+        .get(routes::cities::delete);
 
     app.at("/public").serve_dir("public/")?;
     app.listen("127.0.0.1:8080").await?;

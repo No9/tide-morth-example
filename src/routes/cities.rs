@@ -72,6 +72,21 @@ pub async fn edit(req: Request<State>) -> tide::Result {
 }
 
 #[instrument]
+pub async fn delete(req: Request<State>) -> tide::Result {
+    let state = &req.state();
+    let db = &state.client.database("test");
+    let id = req.param::<String>("city_id")?;
+
+    let object_id = ObjectId::with_string(&id).unwrap();
+    let filter = doc! { "_id": object_id };
+    
+    let _doc = City::find_one_and_delete(&db.clone(), filter, None).await?;
+    
+    Ok(tide::Redirect::new(format!("/cities")).into())
+
+}
+
+#[instrument]
 pub async fn new(req: Request<State>) -> tide::Result {
     let hb = &req.state().registry;
     let mut data = Map::new();

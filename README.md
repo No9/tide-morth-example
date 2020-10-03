@@ -79,5 +79,3 @@ use wither::prelude::*;
         {{/each}}
     </tbody>
 ```
-
-* Delete functionality is not yet defined
