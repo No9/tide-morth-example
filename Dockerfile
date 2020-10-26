@@ -1,6 +1,6 @@
 FROM rust:1.47.0-buster as builder
 
-RUN git clone https://github.com/No9/tide-morth-example.git app-build
+RUN git clone --single-branch --branch code-engine-build https://github.com/No9/tide-morth-example.git app-build
 
 WORKDIR "/app-build"
 
