@@ -1,23 +1,25 @@
-FROM rust:1.47.0-buster as builder
+FROM rust:1.47.0-alpine as builder
 
-RUN git clone --single-branch --branch code-engine-build https://github.com/No9/tide-morth-example.git app-build
+COPY . /app-build
 
 WORKDIR "/app-build"
 
-RUN cargo build --release \
+RUN \
+  apk add --no-cache musl-dev && \
+  cargo build --release \
  && echo "#!/bin/bash" > run.sh \
  && bin=$(find ./target/release -maxdepth 1 -perm -111 -type f| head -n 1) \
  && echo ./${bin##*/} >> run.sh \
  && chmod 755 run.sh
 
-FROM debian:buster-slim
+FROM alpine
 
 RUN useradd rust
 
 WORKDIR "/app"
 
 # get files and built binary from previous image
-COPY --from=builder /app-build/run.sh /app-build/Cargo.toml /app-build/target/release/ ./
+COPY --from=builder --chown=rust /app-build/run.sh /app-build/Cargo.toml /app-build/target/release/ ./
 
 USER rust
 
