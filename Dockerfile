@@ -17,7 +17,7 @@ RUN useradd rust
 WORKDIR "/app"
 
 # get files and built binary from previous image
-COPY --from=builder /app-build/run.sh /app-build/Cargo.toml /app-build/bin/target/release/ ./
+COPY --from=builder /app-build/run.sh /app-build/Cargo.toml /app-build/target/release/ ./
 
 USER rust
 
