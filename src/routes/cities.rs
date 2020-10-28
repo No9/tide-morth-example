@@ -34,7 +34,7 @@ pub async fn index(req: Request<State>) -> tide::Result {
 pub async fn show(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
-    let id = req.param::<String>("city_id")?;
+    let id = req.param("city_id")?;
 
     let object_id = ObjectId::with_string(&id).unwrap();
     let filter = doc! { "_id": object_id };
@@ -53,7 +53,7 @@ pub async fn show(req: Request<State>) -> tide::Result {
 pub async fn edit(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
-    let id = req.param::<String>("city_id")?;
+    let id = req.param("city_id")?;
 
     let object_id = ObjectId::with_string(&id).unwrap();
     let filter = doc! { "_id": object_id };
@@ -75,7 +75,7 @@ pub async fn edit(req: Request<State>) -> tide::Result {
 pub async fn delete(req: Request<State>) -> tide::Result {
     let state = &req.state();
     let db = &state.client.database("test");
-    let id = req.param::<String>("city_id")?;
+    let id = req.param("city_id")?;
 
     let object_id = ObjectId::with_string(&id).unwrap();
     let filter = doc! { "_id": object_id };
@@ -113,7 +113,7 @@ pub async fn update(mut req: Request<State>) -> tide::Result {
     let mut city: City = req.body_form().await?;
     let state = &req.state();
     let db = &state.client.database("test");
-    let id = req.param::<String>("city_id")?;
+    let id = req.param("city_id")?;
     city.id = Some(ObjectId::with_string(&id).unwrap());
 
     city.save(&db.clone(), None).await?;
