@@ -14,6 +14,7 @@ async-std = { version = "1.6.0", features = ["unstable", "attributes"] }
 mongodb = { version = "1", default-features=false }
 serde = "1.0.0"
 serde_json = "1.0.39"
+lazy_static = "1"
 wither = { version = "0.9.0-alpha.2", features = ["async-std-runtime"], default-features = false }
 tracing = { version = "0.1", default-features = true, features = ["log", "std"] }
 tracing-futures = { version = "0.2", default-features = false, features = ["std-future"] }

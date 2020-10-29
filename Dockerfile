@@ -1,3 +1,4 @@
+# Docker file to build an image with just the executable in.
 FROM rust:1.47.0-alpine as builder
 
 COPY . /app-build

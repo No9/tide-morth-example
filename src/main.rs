@@ -10,6 +10,8 @@ use tide_handlebars::prelude::*;
 use opentelemetry::api::Provider;
 use opentelemetry::sdk;
 use tracing_subscriber::prelude::*;
+use lazy_static::lazy_static;
+use std::env;
 
 mod routes;
 
@@ -19,9 +21,16 @@ pub struct State {
     client: Arc<Client>,
 }
 
+lazy_static! {
+    static ref HOST: String = env::var("HOST").unwrap_or_else(|_| "127.0.0.1".to_string());
+    static ref PORT: String = env::var("PORT").unwrap_or_else(|_| "27017".to_string());
+    static ref CONNECTION_STRING: String =
+        format!("mongodb://{}:{}/", HOST.as_str(), PORT.as_str());
+}
+
 #[async_std::main]
 async fn main() -> Result<(), std::io::Error> {
-    let mut client_options = match ClientOptions::parse("mongodb://127.0.0.1:27017").await {
+    let mut client_options = match ClientOptions::parse(&CONNECTION_STRING).await {
         Ok(c) => c,
         Err(e) => panic!("Client Options Failed: {}", e),
     };
