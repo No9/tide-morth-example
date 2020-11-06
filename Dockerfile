@@ -23,8 +23,8 @@ COPY --from=builder --chown=rust /app-build/run.sh /app-build/Cargo.toml /app-bu
 
 USER rust
 
-ENV PORT 8000
+ENV PORT 8080
 
-EXPOSE 8000
+EXPOSE 8080
 
 CMD ["./run.sh"]
