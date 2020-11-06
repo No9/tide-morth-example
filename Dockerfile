@@ -19,7 +19,13 @@ RUN useradd rust
 WORKDIR "/app"
 
 # get files and built binary from previous image
-COPY --from=builder --chown=rust /app-build/run.sh /app-build/Cargo.toml /app-build/target/release/ ./
+COPY --from=builder --chown=rust /app-build/run.sh /app-build/public/ /app-build/Cargo.toml /app-build/target/release/tide-morth-example ./
+
+WORKDIR "/app/public"
+
+COPY --from=builder --chown=rust /app-build/run.sh /app-build/public/  ./
+
+WORKDIR "/app"
 
 USER rust
 
