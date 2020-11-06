@@ -1,19 +1,18 @@
 # Docker file to build an image with just the executable in.
-FROM rust:1.47.0-alpine as builder
+FROM rust:1.47.0-buster as builder
 
 COPY . /app-build
 
 WORKDIR "/app-build"
 
 RUN \
-  apk add --no-cache musl-dev && \
   cargo build --release \
  && echo "#!/bin/bash" > run.sh \
  && bin=$(find ./target/release -maxdepth 1 -perm -111 -type f| head -n 1) \
  && echo ./${bin##*/} >> run.sh \
  && chmod 755 run.sh
 
-FROM alpine
+FROM debian:buster-slim
 
 RUN useradd rust
 
