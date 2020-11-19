@@ -1,5 +1,5 @@
 # Docker file to build an image with just the executable in.
-FROM rust:1.47.0-buster as builder
+FROM rust:1.47.0-alpine as builder
 
 COPY . /app-build
 
@@ -12,9 +12,9 @@ RUN \
  && echo ./${bin##*/} >> run.sh \
  && chmod 755 run.sh
 
-FROM debian:buster-slim
+FROM alpine
 
-RUN useradd rust
+RUN useradd -S rust
 
 WORKDIR "/app"
 
