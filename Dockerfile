@@ -6,6 +6,7 @@ COPY . /app-build
 WORKDIR "/app-build"
 
 RUN \
+  apk add --no-cache musl-dev && \
   cargo build --release \
  && echo "#!/bin/bash" > run.sh \
  && bin=$(find ./target/release -maxdepth 1 -perm -111 -type f| head -n 1) \
